@@ -1,0 +1,54 @@
+$highlight: #E2591E;
+$border-color: #DDD;
+$text-color:#666;
+.detail-item {
+  border: 1px solid $border-color;
+  border-radius: 10px;
+  padding: 15px 30px;
+  .header {
+    .image {
+      text-align: center;
+      img {
+        width: 100%;
+        margin: 0 0 15px 0;
+      }
+    }
+  }
+  .content {
+    .name {
+      font-size: 18px;
+      line-height: 18px;
+      margin: 0 0 5px;
+      .color {
+        font-size: 12px;
+        line-height: 12px;
+        color: $text-color;
+      }
+    }
+    .price {
+      display: block;
+      font-weight: bold;
+      font-size: 14px;
+      color: $highlight;
+      margin: 0 0 10px;
+    }
+    .text {
+      font-size: 12px;
+      line-height: 18px;
+      color: $text-color;
+    }
+  }
+}
+
+.alert {
+  text-align: center;
+  font-size: 16px;
+  line-height: 24px;
+  color: $text-color;
+  i {
+    display: block;
+    font-size: 100px;
+    margin: 0 0 15px;
+    color: $highlight;
+  }
+}
