@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row wrap-items">
-    <div class="layout-loading" [class.d-none]="!showLoading">
+    <div class="layout-loading" [class.d-none]="!appStore.showLoading">
       <button class="btn-loading btn btn-sm btn-warning">
         <i class="fa fa-refresh fa-refresh-animate"></i>
         Loading...
@@ -9,14 +9,14 @@
     <div class="col-md-6 col-sm-6 col-xs-12">
       <h3 class="title">Dispositivos disponibles</h3>
       <ul class="list-unstyled list-items">
-        <li *ngFor="let i of items" (click)="setSelectedItem(i.id)" [class.selected]="i.selected">
+        <li *ngFor="let i of appStore.items" (click)="setSelectedItem(i.id)" [class.selected]="i.selected">
           <span class="name">{{i.name}}</span>
           <button type="button" class="btn btn-secondary btn-sm">Detalles</button>
         </li>
       </ul>
     </div>
     <div class="col-md-6 col-sm-6 col-xs-12">
-      <app-phone-detail-container [item]="selectedItem"></app-phone-detail-container>
+      <app-phone-detail-container [item]="appStore.selectedItem"></app-phone-detail-container>
     </div>
   </div>
 </div>

@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { PhonesService } from '../../services/phones.service';
+import { Observable } from 'rxjs/Observable';
+import { Store, select } from '@ngrx/store';
+import { INIT, SHOW_LOADING, SELECTED_ITEM } from './../../core/app.actions';
+import { AppStore } from './../../core/app.store';
 
 @Component({
   selector: 'app-phone-list-container',
@@ -7,20 +11,28 @@ import { PhonesService } from '../../services/phones.service';
   styleUrls: ['./phone-list-container.component.scss'],
   providers: [PhonesService]
 })
+
 export class PhoneListContainerComponent implements OnInit {
 
-  private items: Array<any> = [];
-  private showLoading: Boolean = true;
-  private selectedItem = {};
+  appState: Observable<AppStore>;
+  appStore: AppStore;
 
-  constructor(private phonesService: PhonesService) { }
+  constructor(private store: Store<AppStore>, private phonesService: PhonesService) {
+    this.appState = store.pipe(select('appStore'));
+  }
 
   ngOnInit() {
     this.getPhones();
+    this.appState.subscribe((state) => {
+      this.appStore = state;
+    });
   }
 
   getPhones() {
-    this.showLoading = true;
+    this.store.dispatch({
+      type: SHOW_LOADING,
+      payload: true
+    });
     this.phonesService.getPhones().
       subscribe((res) => {
         this.checkResponseServer(res);
@@ -35,15 +47,24 @@ export class PhoneListContainerComponent implements OnInit {
   }
 
   setResponseItems(data) {
-    this.items = data;
-    this.showLoading = false;
+    this.store.dispatch({
+      type: SHOW_LOADING,
+      payload: false
+    });
+    this.store.dispatch({
+      type: INIT,
+      payload: data
+    });
   }
 
   setSelectedItem(id) {
-    for (const i of this.items) {
+    for (const i of this.appStore.items) {
       i.selected = (id === i.id);
       if (i.selected) {
-        this.selectedItem = i;
+        this.store.dispatch({
+          type: SELECTED_ITEM,
+          payload: i
+        });
       }
     }
   }

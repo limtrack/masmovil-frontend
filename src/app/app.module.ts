@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
+import { StoreModule } from '@ngrx/store';
+import { appReducer } from './core/app.reducer';
 
 
 import { AppComponent } from './app.component';
@@ -16,7 +18,8 @@ import { PhoneDetailContainerComponent } from './components/phone-detail-contain
   ],
   imports: [
     BrowserModule,
-    HttpModule
+    HttpModule,
+    StoreModule.forRoot({ appStore: appReducer })
   ],
   providers: [],
   bootstrap: [AppComponent]
