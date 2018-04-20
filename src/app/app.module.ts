@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { StoreModule } from '@ngrx/store';
-import { appReducer } from './core/app.reducer';
+import { appReducer } from './reducers/app.reducer';
 
 
 import { AppComponent } from './app.component';

@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { PhonesService } from '../../services/phones.service';
 import { Observable } from 'rxjs/Observable';
 import { Store, select } from '@ngrx/store';
-import { INIT, SHOW_LOADING, SELECTED_ITEM } from './../../core/app.actions';
-import { AppStore } from './../../core/app.store';
+import { INIT, SHOW_LOADING, SELECTED_ITEM } from './../../reducers/app.reducer';
+import { AppStore } from './../../reducers/app.store';
+import { AppState } from './../../reducers/app.state';
 
 @Component({
   selector: 'app-phone-list-container',
@@ -14,25 +15,22 @@ import { AppStore } from './../../core/app.store';
 
 export class PhoneListContainerComponent implements OnInit {
 
-  appState: Observable<AppStore>;
-  appStore: AppStore;
+  dataObservable: Observable<AppStore>;
+  data: AppStore;
 
-  constructor(private store: Store<{ appStore: AppStore }>, private phonesService: PhonesService) {
-    this.appState = store.select('appStore');
+  constructor(private store: Store<AppState>, private phonesService: PhonesService) {
+    this.dataObservable = this.store.select(state => state.appStore);
   }
 
   ngOnInit() {
     this.getPhones();
-    this.appState.subscribe((state) => {
-      this.appStore = state;
+    this.dataObservable.subscribe((state) => {
+      this.data = state;
     });
   }
 
   getPhones() {
-    this.store.dispatch({
-      type: SHOW_LOADING,
-      payload: true
-    });
+    this.storeDispatch(SHOW_LOADING, true);
     this.phonesService.getPhones().
       subscribe((res) => {
         this.checkResponseServer(res);
@@ -47,18 +45,12 @@ export class PhoneListContainerComponent implements OnInit {
   }
 
   setResponseItems(data) {
-    this.store.dispatch({
-      type: SHOW_LOADING,
-      payload: false
-    });
-    this.store.dispatch({
-      type: INIT,
-      payload: data
-    });
+    this.storeDispatch(SHOW_LOADING, false);
+    this.storeDispatch(INIT, data);
   }
 
   setSelectedItem(id) {
-    for (const i of this.appStore.items) {
+    for (const i of this.data.items) {
       i.selected = (id === i.id);
       if (i.selected) {
         this.store.dispatch({
@@ -67,5 +59,12 @@ export class PhoneListContainerComponent implements OnInit {
         });
       }
     }
+  }
+
+  storeDispatch(type, payload) {
+    this.store.dispatch({
+      type: type,
+      payload: payload
+    });
   }
 }

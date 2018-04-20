@@ -1,6 +1,9 @@
 import { Action } from '@ngrx/store';
 import { AppStore, initialAppStore } from './app.store';
-import { INIT, SHOW_LOADING, SELECTED_ITEM } from './app.actions';
+
+export const INIT = 'INIT';
+export const SHOW_LOADING = 'SHOW_LOADING';
+export const SELECTED_ITEM = 'SELECTED_ITEM';
 
 export interface CustomAction extends Action {
   type: string;
