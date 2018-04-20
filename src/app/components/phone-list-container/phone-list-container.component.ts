@@ -53,10 +53,7 @@ export class PhoneListContainerComponent implements OnInit {
     for (const i of this.data.items) {
       i.selected = (id === i.id);
       if (i.selected) {
-        this.store.dispatch({
-          type: SELECTED_ITEM,
-          payload: i
-        });
+        this.storeDispatch(SELECTED_ITEM, i);
       }
     }
   }
