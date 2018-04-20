@@ -41,10 +41,10 @@ export class PhoneListContainerComponent implements OnInit {
     let data = (res._body && res.status && res.status === 200)
       ? JSON.parse(res._body)
       : [];
-    this.setResponseItems(data);
+    this.setResponseData(data);
   }
 
-  setResponseItems(data) {
+  setResponseData(data) {
     this.storeDispatch(SHOW_LOADING, false);
     this.storeDispatch(INIT, data);
   }
