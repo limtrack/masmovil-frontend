@@ -17,8 +17,8 @@ export class PhoneListContainerComponent implements OnInit {
   appState: Observable<AppStore>;
   appStore: AppStore;
 
-  constructor(private store: Store<AppStore>, private phonesService: PhonesService) {
-    this.appState = store.pipe(select('appStore'));
+  constructor(private store: Store<{ appStore: AppStore }>, private phonesService: PhonesService) {
+    this.appState = store.select('appStore');
   }
 
   ngOnInit() {
